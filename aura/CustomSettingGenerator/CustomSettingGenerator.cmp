@@ -1,0 +1,138 @@
+<!--Created By Raja Bhandari for Custom Setting Script Generator Asset on 24-03-2019-->
+<aura:component implements="force:appHostable" access="global" controller="CustomSettingController"  >
+	
+    <!--Attributes START-->
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="selectedValue" type="boolean"/>
+    <aura:attribute name="reset" type="boolean" default="false"/>
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="generateButtonVisibility" type="boolean" default="false"/>
+    <aura:attribute name="generateButtonPressed" type="boolean" default="false"/>
+    <aura:attribute name="generatedScript" type="string" default=""/>
+    <aura:attribute name="selectedStep" type="String" default="step0"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="openModal" type="boolean" default="false"/>
+    <aura:attribute name="customSettingName" type="string" default="--None--"/>
+    <aura:attribute name="progressSpinner" type="Boolean" default="false" />
+    
+    <!--Attributes END-->
+	
+	<!--Handler START-->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!--Handler START-->
+	<!--Header DIV Tag  START-->
+    <div class="HeaderBox">
+		<div class="slds-p-top_large slds-p-bottom_large slds-theme_inverse">
+			<h1 class="slds-text-heading_large slds-m-left_x-small">Custom Setting Generator</h1>
+			<h1 class="slds-text-heading_medium slds-m-left_x-small">Make you test class data build easier</h1>
+			<h1 class="slds-text-align_right slds-m-right_x-small">Developed By Raja Bhandarif</h1>
+		</div>
+		<!--Header DIV Tag  END-->
+		<!--Progress Bar Tag  START-->
+		<div>
+		   <lightning:progressIndicator currentStep="{!v.selectedStep}" type="path" variant="base">
+				<lightning:progressStep label="Select Custom Setting->Click Export" value="step0"/>
+				<lightning:progressStep label="Select All/Few Records" value="step1"/>
+				<lightning:progressStep label="Generate Custom Setting" value="step2"/>
+			   <lightning:progressStep label="Copy The Code Below" value="step3"/>
+			</lightning:progressIndicator>
+		</div>
+		<!--Progress Bar Tag  END-->
+		
+		<lightning:layout horizontalAlign="center">
+		
+			<lightning:layoutItem flexibility="auto" padding="around-small">
+				<!--Picklist START-->
+				<div>
+					<lightning:select name="Csetting" label="Select Custom Setting" aura:id="Csetting" value="--None--" onchange="{!c.populateCsettngValues}">
+						<option text="--None--" value="--None--"/>
+						<aura:iteration items="{!v.options}" var="option">
+							<option text="{!option.label}" value="{!option.id}" />
+						</aura:iteration>
+					 </lightning:select>
+				</div>
+				<!--Picklist END-->
+			</lightning:layoutItem>
+			
+			<!--Buttons START-->
+			<lightning:layoutItem padding="around-small">
+				<div class="ButtonDiv">
+					 <lightning:button variant="brand" label="Export" title="" onclick="{!c.exportButton}" class="ButtonCss"/>
+				</div>
+			</lightning:layoutItem>
+			
+			<lightning:layoutItem padding="around-small">
+				<aura:if isTrue="{!v.reset}">
+					<div class="ButtonDiv">
+						 <lightning:button variant="brand" label="Reset" title="" onclick="{!c.resetButton}" class="ButtonCss"/>
+					</div>
+				</aura:if>
+			</lightning:layoutItem>
+			
+			<lightning:layoutItem padding="around-small">
+				<aura:if isTrue="{!v.generateButtonVisibility}">
+					<div class="ButtonDiv">
+						 <lightning:button variant="brand" label="Generate" title="" onclick="{!c.generateScriptMethod}" class="ButtonCss" />
+					</div>
+				</aura:if>
+			</lightning:layoutItem>
+			
+			<!--Buttons END-->
+			
+		</lightning:layout>
+	 
+		<!--Table START-->
+		<aura:if isTrue="{!v.selectedValue}">
+			<lightning:card title="Select Records To Generate Script : ">
+			<lightning:layout horizontalAlign="center">
+			<lightning:layoutItem flexibility="auto" padding="around-small">
+			<div class="SelectedRows">
+			<h1>&nbsp;&nbsp; Selected Rows: {! v.selectedRowsCount }</h1>
+			</div>
+			</lightning:layoutItem>
+			</lightning:layout>
+			<lightning:datatable
+					columns="{!v.columns}"
+					data="{!v.data}" onrowaction="{! c.handleRowAction }"
+					keyField="Id" onrowselection="{! c.updateSelectedText }" resizeColumnDisabled="true" aura:id="datatableid" />
+			</lightning:card>
+		</aura:if>
+	</div>
+ <!--Table END-->
+ <!--Show Spinner when processing happen START-->
+    <aura:if isTrue="{!v.progressSpinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container" style="position: fixed">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+ <!--Show Spinner when processing happen ENDS-->
+    
+ <!--Modal START-->
+	<aura:if isTrue="{!v.generateButtonPressed}">
+		<aura:if isTrue="{!v.openModal}">
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">Copy Below Generated Script</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium slds-text-align_left">
+                        <p><b>
+                            <ui:outputRichText value="{!v.generatedScript}" aura:id="OutputText" linkify="false"/>
+                            </b>
+                        </p>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--brand" onclick="{!c.handleCloseModal}">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div> 
+		</aura:if>
+	</aura:if>
+ <!--Modal END-->
+</aura:component>

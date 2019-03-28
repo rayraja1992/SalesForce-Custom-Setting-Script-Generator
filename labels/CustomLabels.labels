@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Custom_Setting_For_Test_Class</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Label for CustomSettingGenerator: Add both type of CS API name separated by &quot;--&quot;</shortDescription>
+        <value>RestrcitProfilesAndUsers__c--EnableJSON__c</value>
+    </labels>
+</CustomLabels>
