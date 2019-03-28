@@ -1,1 +1,1 @@
-# Check PPT in master branch
+# Check PPT in master branch for Custom Setting Script Generator
