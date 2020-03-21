@@ -1,7 +1,18 @@
+/**
+ * @File Name          : AccListController.cls
+ * @Description        : 
+ * @Author             : Raja Bhandari
+ * @Group              : 
+ * @Last Modified By   : Raja Bhandari
+ * @Last Modified On   : 21/3/2020, 8:27:40 pm
+ * @Modification Log   : 
+ * Ver       Date            Author      		    Modification
+ * 1.0    21/3/2020   Raja Bhandari     Initial Version
+**/
 public class AccListController{
 
     public AccListController() {
-
+//jjjjjjjjj
     }
 
 
