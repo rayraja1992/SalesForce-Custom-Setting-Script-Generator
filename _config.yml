@@ -1,3 +1,25 @@
 - name: Pull Request Templater
   uses: SilverCory/pull-request-templater@v1.14.0
+
+name: "Pull Request Template"
+on:
+  pull_request:
+    types: [edited, opened, reopened]
+
+jobs:
+  pr_template:
+    runs-on: ubuntu-latest
+    name: Apply dynamic template changes
+    steps:
+      - name: Random Number Generator
+        id: random-number-generator
+        shell: bash
+        run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      - uses: silvercory/pull-request-templater@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          customInput: |
+            {
+              "randomNumber": "${{ steps.random-number-generator.outputs.random-number }}"
+            }
             
