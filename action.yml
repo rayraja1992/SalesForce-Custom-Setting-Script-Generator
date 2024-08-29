@@ -1,0 +1,19 @@
+name: 'Dynamic Template'
+description: 'Adds dynamic template tags to GitHub PR body'
+inputs:
+  token:
+    description: "The GITHUB_TOKEN secret for the repository"
+    default: ${{ github.token }}
+    required: false
+  customInput:
+    description: "Custom array of key value pairs to render in template."
+    required: false
+  openingTag:
+      description: "Replace default opening tag ({{) with another string"
+      required: false
+  closingTag:
+    description: "Replace default closing tag (}}) with another string"
+    required: false
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
