@@ -18,4 +18,4 @@ jobs:
           comment: 'Please fill out the PR template'
           fail: "true"
           convert-to-draft: "true"
-          template-path: ".github/pull_request_template.md"a
+          template-path: "pull_request_template.md"
