@@ -1,7 +1,4 @@
-- name: Pull Request Templater
-  uses: SilverCory/pull-request-templater@v1.14.0
-
-  - type: textarea
+- type: textarea
   attributes:
     label: Operating System
     description: What operating system are you using?
