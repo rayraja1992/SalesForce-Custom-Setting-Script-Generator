@@ -1,0 +1,21 @@
+name: Check that PR was filled out
+
+on:
+  pull_request_target:
+    types: [ opened, reopened, ready_for_review, edited ]
+
+jobs:
+  check_pr_description:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - id: check-pr
+        uses: foursquare/pr-template-fillout-verifier@v0.0.3
+        if: github.event.pull_request.draft == false
+        with:
+          comment: 'Please fill out the PR template'
+          fail: "true"
+          convert-to-draft: "true"
+          template-path: ".github/pull_request_template.md"
